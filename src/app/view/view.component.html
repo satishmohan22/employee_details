@@ -1,0 +1,40 @@
+
+<div class="container card">
+    <h2 class="info">Employee Information</h2>
+<div class="table-responsive" *ngFor="let data of details" >
+
+<table class="table" *ngIf="data.id==dataId">
+    <tr>
+        <td><b>Id</b></td>
+        <td>{{data.id}}</td>
+    </tr>
+    <tr>
+        <td><b>Name</b></td>
+        <td  >{{data.name}}</td>
+     </tr>
+     <tr>
+        <td><b>Department</b></td>
+        <td>{{data.department}}</td>
+    </tr>
+    <tr>
+        <td><b>address</b></td>
+        <td>{{data.address}}</td>
+    </tr>
+    <tr>
+        <td><b>Email</b></td>
+        <td>{{data.email}}</td>
+    </tr>
+    <tr>
+        <td><b>Total Marks</b></td>
+        <td>{{data.totalMarks}}</td>
+    </tr>
+    <tr>
+        <td><b>Year</b></td>
+        <td>{{data.year}}</td>
+    </tr>
+    
+</table>
+
+</div>
+<a routerLink="" class="btn btn-primary col-lg-3 col-md-3">back</a>
+</div>

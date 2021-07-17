@@ -1,0 +1,159 @@
+<div class="container">
+    <h2 class="d-block p-2 bg-primary text-white">Employee Details</h2>
+    <p><span class="error">* required field</span></p>
+    <form method="post" class="well form-horizontal" #employeeForm="ngForm" (ngSubmit)="onSubmit(employeeForm)">
+    <!-- {{employeeForm.value | json}} -->
+
+    <div class="form-group">
+        <label>Name</label><span class="error">*</span>
+        <input  type="text" 
+                name="name" 
+                class="form-control"
+                [(ngModel)]="selectedDetail.name"
+                [class.is-invalid]="nameField.invalid && nameField.touched" 
+                #nameField="ngModel"
+                pattern="^[a-zA-Z]+[a-zA-Z- _\.]{1,15}$"
+                required   (click)="log(nameField)">
+                    <div *ngIf="nameField.errors && (nameField.invalid || nameField.touched)">
+                    <small class="text-danger"  *ngIf="nameField.errors.required && nameField.touched">Department is required</small>
+                    <small class="text-danger"  *ngIf="nameField.errors.pattern">Department must have 2 charecters</small>
+                </div>
+    </div>
+
+
+    <div class="form-group">
+        <label>Department</label><span class="error">*</span>
+        <input  type="text" 
+                name="department" 
+                class="form-control"
+                [(ngModel)]="selectedDetail.department"
+                [class.is-invalid]="departmentName.invalid && departmentName.touched" 
+                #departmentName="ngModel"
+                pattern="^[a-zA-Z]+[a-zA-Z- _\.]{1,15}$"
+                required>
+                    <div *ngIf="departmentName.errors && (departmentName.invalid || departmentName.touched)">
+                    <small class="text-danger"  *ngIf="departmentName.errors.required && departmentName.touched">Department is required</small>
+                    <small class="text-danger"  *ngIf="departmentName.errors.pattern">Department must have 2 charecters</small>
+                </div>
+    </div>
+
+    <div class="form-group">
+        <label>Address</label><span class="error">*</span>
+        <input  type="text" 
+                name="address" 
+                class="form-control"
+                [(ngModel)]="selectedDetail.address"
+                [class.is-invalid]="addressField.invalid && addressField.touched" 
+                #addressField="ngModel" 
+                pattern="^[a-zA-Z0-9]+[a-zA-Z0-9- _\.]{5,15}$"
+                required>
+                    <div *ngIf="addressField.errors && (addressField.invalid || addressField.touched)">
+                    <small class="text-danger"  *ngIf="addressField.errors.required && addressField.touched">Address is required</small>
+                    <small class="text-danger"  *ngIf="addressField.errors.pattern">Address must have 5 charecters</small>
+                </div>
+    </div>
+
+    <div class="form-group">
+        <label>Email</label><span class="error">*</span>
+        <input  type="text" 
+                name="email" 
+                class="form-control"
+                [(ngModel)]="selectedDetail.email"
+                [class.is-invalid]="emailField.invalid && emailField.touched" 
+                #emailField="ngModel" 
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                required>
+                    <div *ngIf="emailField.errors && (emailField.invalid || emailField.touched)">
+                    <small class="text-danger"  *ngIf="emailField.errors.required && emailField.touched">Email is required</small>
+                    <small class="text-danger"  *ngIf="emailField.errors.pattern">Email invalid</small>
+                </div>
+    </div>
+            
+
+    <div class="form-group">
+        <label>Total Marks</label>
+        <input  type="number" 
+                name="totalMarks" 
+                class="form-control"
+                [(ngModel)]="selectedDetail.totalMarks"
+                [class.is-invalid]="totalMarksField.invalid && totalMarksField.touched" 
+                #totalMarksField="ngModel" 
+                >
+                    <small class="text-danger"  *ngIf="totalMarksField.value<0 || totalMarksField.value>1000 ">numbers 1 to 1000 only</small>
+    </div>
+
+    
+
+    <div class="form-group">
+        <label>Year</label>
+        <input  type="number" 
+                name="year" 
+                class="form-control"
+                [(ngModel)]="selectedDetail.year"
+                [class.is-invalid]="totalMarksField.invalid && totalMarksField.touched" 
+                #yearField="ngModel" 
+                >
+                    <small class="text-danger"  *ngIf="(yearField.value<1945 || yearField.value>2019) && yearField.touched">numbers 1945 to 2019 only</small>
+                
+    </div>
+
+    <div class="form-group" >
+        <button type="button" *ngIf="isUpdate" [disabled]="employeeForm.invalid" name="submit" value="Submit" id='submit' (click)="createOrUpdate(employeeForm)" class="btn btn-success">
+            Update
+        </button>
+          
+        <button type="button" *ngIf="isSubmit" [disabled]="employeeForm.invalid" name="submit" value="Submit" id='submit' (click)="createOrUpdate(employeeForm)" class="btn btn-success">
+            Submit
+        </button>
+
+    </div>
+
+
+    </form>
+</div>
+
+<!-- Displaying the data into table -->
+<div class="container ">
+    <div class="table-responsive card text-center m-2">
+      <table class="table table-striped">
+          <thead>
+          <tr class="bg-primary">
+            <th>ID</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Address</th>
+            <th>Email</th>
+            <th>Total Marks</th>
+            <th>year</th>
+            <th colspan="3">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+        
+          <tr *ngFor="let data of details">
+            <td>{{data.id}} </td>
+            <td>{{data.name}}</td>
+            <td>{{data.department}}</td>
+            <td>{{data.address}}</td>
+            <td>{{data.email}}</td>
+            <td>{{data.totalMarks}}</td>
+            <td>{{data.year}}</td>
+            <td>
+                <a routerLink="/view/" (click)="onselect(data)" class="btn btn-info btn-lg">view</a>
+
+                <input type="button" name="delete" value="delete" (click)="deleteDetails(data.id)"   
+                       class="btn btn-danger btn-lg"/>
+    
+                <input type="button" name="edit" value="edit" (click)="selectedDetails(data)"  
+                       class="btn btn-info btn-lg"/>
+                
+            </td>
+           </tr>  
+           
+         </tbody>
+        </table>
+        
+        </div></div>
+       
+
+

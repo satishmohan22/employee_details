@@ -1,0 +1,53 @@
+<div class="container-fluid mb-5">
+    <h2>contact form</h2>
+    <form action="" #userForm="ngForm">
+
+    {{userForm.value | json}}
+
+        <hr> {{userModel | json}}
+
+        <div class="form-group">
+            <label for="fullName">Full Name:</label>
+            <input  type="text" name="fullName" 
+                    required id="fullName" [class.is-invalid]="fullName.invalid && fullName.touched" 
+                    class="form-control" [(ngModel)]="userModel.fullName" #fullName=ngModel 
+                    (change)=log(fullName)/>
+                    <small class="text-danger" [class.d-none]="fullName.valid || fullName.untouched">Name is required</small>
+        </div>
+
+        {{fullName.untouched}}
+
+        <div class="form-group">
+            <label for="phone">
+                phone
+            </label>
+            <input  type="text" 
+                    name="phone" 
+                    #phone=ngModel id="phone" 
+                    required pattern="^\d{10}$"
+                    [class.is-invalid]="phone.invalid && phone.touched" 
+                    class="form-control" [(ngModel)]="userModel.phone">
+                    <!-- <small class="text-danger" [class.d-none]="phone.valid || phone.untouched">
+                    Phone number must have 10 digits</small> -->
+                    <div *ngIf="phone.errors && (phone.invalid || phone.touched)">
+                        <small class="text-danger"  *ngIf="phone.errors.required">phone number is required</small>
+                        <small class="text-danger"  *ngIf="phone.errors.pattern">number must 10 digits</small>
+                    </div>
+
+        </div>
+
+
+
+
+        <div ngModelGroup="address" class="form-group">
+            <address>
+                <label for="street">street</label>
+               <input type="text" name="street" class="form-control" id="" [(ngModel)]="userModel.street">
+               <label for="city">city</label>
+               <input type="text" name="city" class="form-control" id="" [(ngModel)]="userModel.city">
+           </address>
+
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
